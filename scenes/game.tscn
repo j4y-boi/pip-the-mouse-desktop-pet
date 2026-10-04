@@ -193,7 +193,6 @@ size = Vector2(96, 84)
 script = ExtResource("1_uwrxv")
 
 [node name="GUI" parent="." unique_id=1860797197 instance=ExtResource("7_u5sy4")]
-visible = false
 offset_left = 0.0
 offset_right = 0.0
 

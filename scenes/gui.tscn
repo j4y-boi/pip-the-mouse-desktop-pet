@@ -156,6 +156,7 @@ z_as_relative = false
 position = Vector2(553, -397)
 mass = 0.1
 physics_material_override = SubResource("PhysicsMaterial_08a8y")
+freeze_mode = 1
 linear_velocity = Vector2(100, 0)
 script = ExtResource("5_jqlde")
 
