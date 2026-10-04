@@ -26,6 +26,6 @@ func _update_animation(direction: float) -> void:
 	if not is_on_floor():
 		sprite.play("look")
 	elif direction != 0:
-		sprite.play("run")
+		sprite.play("walk")
 	else:
 		sprite.play("idle")

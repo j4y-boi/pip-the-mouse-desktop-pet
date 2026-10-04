@@ -1,7 +1,21 @@
 extends Node2D
+@onready var game_floor: StaticBody2D = $boundaries
+
+func get_taskbar_height():
+	return DisplayServer.screen_get_size().y - DisplayServer.screen_get_usable_rect().size.y
+
+func _ready():
+	game_floor.position.y = 1090 - get_taskbar_height() #idek why 1090, magic number i suppose :P
 
 
-## Called when the node enters the scene tree for the first time.
+
+
+
+
+
+
+
+
 #func _ready() -> void:
 	#get_window().mouse_passthrough = false
 	#set_passthrough()

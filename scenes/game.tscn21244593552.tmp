@@ -7,14 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://cp5s2e461y1an" path="res://assets/mouse/itch_mouse.bmp" id="4_p57ef"]
 [ext_resource type="Texture2D" uid="uid://ceuv4pp7schqq" path="res://assets/mouse/look.png" id="5_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://be201yhrppbco" path="res://scenes/gui.tscn" id="7_u5sy4"]
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_0tnpc"]
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_vtaks"]
-normal = Vector2(1, 0)
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_xy8r0"]
-normal = Vector2(-1, 0)
+[ext_resource type="Texture2D" uid="uid://gekbirvlsthv" path="res://assets/food/cheese.png" id="8_gee14"]
+[ext_resource type="Script" uid="uid://b1i4l60wwj0x8" path="res://scripts/food.gd" id="9_0tnpc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cb5na"]
 atlas = ExtResource("2_lnu2h")
@@ -189,6 +183,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c12me"]
 size = Vector2(96, 84)
 
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_xy8r0"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0tnpc"]
+bounce = 0.5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0tnpc"]
+size = Vector2(60, 60)
+
 [node name="Node2D" type="Node2D" unique_id=2051751882]
 script = ExtResource("1_uwrxv")
 
@@ -196,20 +198,6 @@ script = ExtResource("1_uwrxv")
 visible = false
 offset_left = 0.0
 offset_right = 0.0
-
-[node name="boundaries" type="StaticBody2D" parent="." unique_id=499436626]
-position = Vector2(960, 1015)
-
-[node name="floor" type="CollisionShape2D" parent="boundaries" unique_id=1878036520]
-shape = SubResource("WorldBoundaryShape2D_0tnpc")
-
-[node name="LWall" type="CollisionShape2D" parent="boundaries" unique_id=806279205]
-position = Vector2(-960, 0)
-shape = SubResource("WorldBoundaryShape2D_vtaks")
-
-[node name="RWall" type="CollisionShape2D" parent="boundaries" unique_id=2013263896]
-position = Vector2(960, 0)
-shape = SubResource("WorldBoundaryShape2D_xy8r0")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1825865480]
 position = Vector2(741, 491)
@@ -224,3 +212,22 @@ autoplay = "walk"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1518091037]
 position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_c12me")
+
+[node name="floor" type="StaticBody2D" parent="." unique_id=499436626]
+position = Vector2(960, 1015)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="floor" unique_id=1878036520]
+shape = SubResource("WorldBoundaryShape2D_xy8r0")
+
+[node name="food" type="RigidBody2D" parent="." unique_id=191291971]
+position = Vector2(186, 76)
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_0tnpc")
+script = ExtResource("9_0tnpc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="food" unique_id=1857810669]
+shape = SubResource("RectangleShape2D_0tnpc")
+
+[node name="sprite" type="Sprite2D" parent="food" unique_id=666363132]
+scale = Vector2(3, 3)
+texture = ExtResource("8_gee14")

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://gekbirvlsthv" path="res://assets/food/cheese.png" id="1_ynd5l"]
 [ext_resource type="Texture2D" uid="uid://d1rpaowdvp11g" path="res://assets/ball.png" id="2_b8iy7"]
 [ext_resource type="Texture2D" uid="uid://bxmjp1pxtw272" path="res://assets/icon.png" id="3_jqlde"]
+[ext_resource type="Script" uid="uid://b1i4l60wwj0x8" path="res://scripts/food.gd" id="5_jqlde"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_08a8y"]
 content_margin_left = 15.0
@@ -53,6 +54,12 @@ _data = {
 &"show": SubResource("Animation_7yii4")
 }
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_08a8y"]
+bounce = 0.5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7yii4"]
+size = Vector2(65, 65)
+
 [sub_resource type="Animation" id="Animation_b8iy7"]
 length = 0.001
 tracks/0/type = "value"
@@ -90,6 +97,7 @@ _data = {
 }
 
 [node name="GUI" type="Control" unique_id=1860797197]
+z_index = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -98,6 +106,7 @@ offset_left = -1.0
 offset_right = -1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_b8iy7")
 
 [node name="SideBar" type="PanelContainer" parent="." unique_id=1902093610]
@@ -140,6 +149,23 @@ expand_icon = true
 [node name="SideBarAnimation" type="AnimationPlayer" parent="SideBar" unique_id=99741394]
 libraries/ = SubResource("AnimationLibrary_4yt8u")
 
+[node name="food" type="RigidBody2D" parent="SideBar" unique_id=579680537]
+process_mode = 4
+visible = false
+z_as_relative = false
+position = Vector2(553, -397)
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_08a8y")
+linear_velocity = Vector2(100, 0)
+script = ExtResource("5_jqlde")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SideBar/food" unique_id=1508622974]
+shape = SubResource("RectangleShape2D_7yii4")
+
+[node name="sprite" type="Sprite2D" parent="SideBar/food" unique_id=1623398500]
+scale = Vector2(3, 3)
+texture = ExtResource("1_ynd5l")
+
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="." unique_id=1799231455]
 title = "are u sure?"
 extend_to_title = true
@@ -150,17 +176,14 @@ cancel_button_text = "Go Back"
 
 [node name="Stats" type="PanelContainer" parent="." unique_id=1844018038]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
 offset_left = -215.0
-offset_top = -1082.0
+offset_top = -542.0
 offset_right = 215.0
-offset_bottom = -576.0
+offset_bottom = -36.0
 grow_horizontal = 2
-grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_08a8y")
 
 [node name="Content" type="VBoxContainer" parent="Stats" unique_id=775405668]
