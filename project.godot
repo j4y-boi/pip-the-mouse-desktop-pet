@@ -14,10 +14,15 @@ config/name="Pip the Mouse: Desktop edition"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameState="*uid://c0spya6dklvbm"
+
 [display]
 
-window/size/viewport_width=200
-window/size/viewport_height=200
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/mode=3
 window/size/borderless=true
 window/size/always_on_top=true
 window/size/transparent=true
@@ -28,6 +33,14 @@ window/per_pixel_transparency/allowed=true
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot_super-wakatime/plugin.cfg")
+
+[input]
+
+menu={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":96,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
 
 [physics]
 

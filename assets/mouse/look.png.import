@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://drqts5bmlpvfx"
-path="res://.godot/imported/idle_mouse.bmp-a9eb4e6d5c0b1883cf2368710976533a.ctex"
+uid="uid://ceuv4pp7schqq"
+path="res://.godot/imported/look.png-f813d8695673747b2a1740ab3dac8240.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/2d/idle_mouse.bmp"
-dest_files=["res://.godot/imported/idle_mouse.bmp-a9eb4e6d5c0b1883cf2368710976533a.ctex"]
+source_file="res://assets/mouse/look.png"
+dest_files=["res://.godot/imported/look.png-f813d8695673747b2a1740ab3dac8240.ctex"]
 
 [params]
 

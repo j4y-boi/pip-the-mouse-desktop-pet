@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://vkeyx0r8bv3j"
-path="res://.godot/imported/walk2_mouse.bmp-658bb50cd31d9afbf43370b1095940d6.ctex"
+uid="uid://d1rpaowdvp11g"
+path="res://.godot/imported/ball.png-ca93c4f2e7b7f8325cbd933673092ff4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/2d/walk2_mouse.bmp"
-dest_files=["res://.godot/imported/walk2_mouse.bmp-658bb50cd31d9afbf43370b1095940d6.ctex"]
+source_file="res://assets/ball.png"
+dest_files=["res://.godot/imported/ball.png-ca93c4f2e7b7f8325cbd933673092ff4.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgyo8cvrk3uki"
-path="res://.godot/imported/play_mouse.bmp-98ddfcf023341f8fea1d79e7ba61d393.ctex"
+uid="uid://gekbirvlsthv"
+path="res://.godot/imported/cheese.png-92bd048a0112565de777582df90492a7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/2d/play_mouse.bmp"
-dest_files=["res://.godot/imported/play_mouse.bmp-98ddfcf023341f8fea1d79e7ba61d393.ctex"]
+source_file="res://assets/food/cheese.png"
+dest_files=["res://.godot/imported/cheese.png-92bd048a0112565de777582df90492a7.ctex"]
 
 [params]
 

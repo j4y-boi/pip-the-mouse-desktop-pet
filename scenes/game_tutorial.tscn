@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dh6ve16dqxj18"]
 
-[ext_resource type="Script" uid="uid://be4a4d36vh0hq" path="res://scripts/game.gd" id="1_dis88"]
-[ext_resource type="Texture2D" uid="uid://drqts5bmlpvfx" path="res://assets/2d/idle_mouse.bmp" id="2_5gf0t"]
-[ext_resource type="Texture2D" uid="uid://vkeyx0r8bv3j" path="res://assets/2d/walk2_mouse.bmp" id="3_5gf0t"]
+[ext_resource type="Script" uid="uid://be4a4d36vh0hq" path="res://scripts/tutorial_script.gd" id="1_dis88"]
+[ext_resource type="Texture2D" uid="uid://drqts5bmlpvfx" path="res://assets/mouse/idle_mouse.bmp" id="2_5gf0t"]
+[ext_resource type="Texture2D" uid="uid://vkeyx0r8bv3j" path="res://assets/mouse/walk2_mouse.bmp" id="3_5gf0t"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cb5na"]
 atlas = ExtResource("2_5gf0t")

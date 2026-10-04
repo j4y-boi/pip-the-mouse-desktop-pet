@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxgd76grgt5xt"
-path="res://.godot/imported/died_mouse.bmp-577a24f8ce53a2a7353eb00ce0864b4e.ctex"
+uid="uid://boxbd75ogmaht"
+path="res://.godot/imported/sleep_mouse.bmp-22d027403b52c617383514990aadccff.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/2d/died_mouse.bmp"
-dest_files=["res://.godot/imported/died_mouse.bmp-577a24f8ce53a2a7353eb00ce0864b4e.ctex"]
+source_file="res://assets/mouse/sleep_mouse.bmp"
+dest_files=["res://.godot/imported/sleep_mouse.bmp-22d027403b52c617383514990aadccff.ctex"]
 
 [params]
 

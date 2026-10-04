@@ -1,0 +1,255 @@
+[gd_scene format=3 uid="uid://be201yhrppbco"]
+
+[ext_resource type="Script" uid="uid://dnxavt2u41qoi" path="res://scripts/gui.gd" id="1_b8iy7"]
+[ext_resource type="Texture2D" uid="uid://gekbirvlsthv" path="res://assets/food/cheese.png" id="1_ynd5l"]
+[ext_resource type="Texture2D" uid="uid://d1rpaowdvp11g" path="res://assets/ball.png" id="2_b8iy7"]
+[ext_resource type="Texture2D" uid="uid://bxmjp1pxtw272" path="res://assets/icon.png" id="3_jqlde"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_08a8y"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(1, 0.65882355, 0.30980393, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.70980394, 0.45490196, 0.19215687, 1)
+
+[sub_resource type="Animation" id="Animation_08a8y"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 448)]
+}
+
+[sub_resource type="Animation" id="Animation_7yii4"]
+resource_name = "show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.25, 1),
+"update": 0,
+"values": [Vector2(-130, 448), Vector2(0, 448)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4yt8u"]
+_data = {
+&"RESET": SubResource("Animation_08a8y"),
+&"show": SubResource("Animation_7yii4")
+}
+
+[sub_resource type="Animation" id="Animation_b8iy7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(745, -542)]
+}
+
+[sub_resource type="Animation" id="Animation_jqlde"]
+resource_name = "show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.25, 1),
+"update": 0,
+"values": [Vector2(745, -542), Vector2(745, 287)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_08a8y"]
+_data = {
+&"RESET": SubResource("Animation_b8iy7"),
+&"show": SubResource("Animation_jqlde")
+}
+
+[node name="GUI" type="Control" unique_id=1860797197]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_b8iy7")
+
+[node name="SideBar" type="PanelContainer" parent="." unique_id=1902093610]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -92.0
+offset_right = 111.0
+offset_bottom = 92.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_08a8y")
+
+[node name="Content" type="VBoxContainer" parent="SideBar" unique_id=101410631]
+layout_mode = 2
+
+[node name="feed" type="Button" parent="SideBar/Content" unique_id=877297213]
+layout_mode = 2
+text = "Feed"
+icon = ExtResource("1_ynd5l")
+
+[node name="play" type="Button" parent="SideBar/Content" unique_id=661338520]
+layout_mode = 2
+text = "Play
+"
+icon = ExtResource("2_b8iy7")
+
+[node name="stats" type="Button" parent="SideBar/Content" unique_id=388278186]
+layout_mode = 2
+text = "Stats"
+icon = ExtResource("3_jqlde")
+expand_icon = true
+
+[node name="quit" type="Button" parent="SideBar/Content" unique_id=90999509]
+layout_mode = 2
+text = "Quit"
+icon = ExtResource("3_jqlde")
+expand_icon = true
+
+[node name="SideBarAnimation" type="AnimationPlayer" parent="SideBar" unique_id=99741394]
+libraries/ = SubResource("AnimationLibrary_4yt8u")
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="." unique_id=1799231455]
+title = "are u sure?"
+extend_to_title = true
+force_native = true
+ok_button_text = "Quit"
+dialog_text = "Are you sure that you want to quit the game?"
+cancel_button_text = "Go Back"
+
+[node name="Stats" type="PanelContainer" parent="." unique_id=1844018038]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -215.0
+offset_top = -1082.0
+offset_right = 215.0
+offset_bottom = -576.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_08a8y")
+
+[node name="Content" type="VBoxContainer" parent="Stats" unique_id=775405668]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="top" type="RichTextLabel" parent="Stats/Content" unique_id=2051544490]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 50
+text = "Stats"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="title1" type="RichTextLabel" parent="Stats/Content" unique_id=1434483362]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 30
+text = "Time Alive:"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AliveTime" type="RichTextLabel" parent="Stats/Content" unique_id=149662027]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 25
+text = "0:01:01"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="title2" type="RichTextLabel" parent="Stats/Content" unique_id=753133700]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 30
+text = "Times fed:"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FeedCount" type="RichTextLabel" parent="Stats/Content" unique_id=72781575]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 25
+text = "1"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="title3" type="RichTextLabel" parent="Stats/Content" unique_id=1304134777]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 30
+text = "Total Playtime:"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlaytimeTotal" type="RichTextLabel" parent="Stats/Content" unique_id=429031558]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 25
+text = "1"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="title4" type="RichTextLabel" parent="Stats/Content" unique_id=158049785]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 30
+text = "Times Restarted:"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RestartCount" type="RichTextLabel" parent="Stats/Content" unique_id=63540372]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 25
+text = "1"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatExit" type="Button" parent="Stats/Content" unique_id=679608637]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Exit"
+
+[node name="StatAnimations" type="AnimationPlayer" parent="Stats" unique_id=1149104176]
+libraries/ = SubResource("AnimationLibrary_08a8y")
+
+[connection signal="pressed" from="SideBar/Content/feed" to="." method="_on_feed_pressed"]
+[connection signal="pressed" from="SideBar/Content/play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="SideBar/Content/stats" to="." method="_on_stats_pressed"]
+[connection signal="pressed" from="SideBar/Content/quit" to="." method="_on_quit_pressed"]
+[connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_confirmed"]
+[connection signal="pressed" from="Stats/Content/StatExit" to="." method="_on_stat_exit_pressed"]
