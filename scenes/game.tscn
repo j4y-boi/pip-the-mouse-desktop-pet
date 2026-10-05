@@ -223,3 +223,11 @@ autoplay = "walk"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1518091037]
 position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_c12me")
+
+[node name="Area2D" type="Area2D" parent="CharacterBody2D" unique_id=1444873570]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/Area2D" unique_id=1853862396]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_c12me")
+
+[connection signal="input_event" from="CharacterBody2D/Area2D" to="CharacterBody2D" method="_on_area_2d_input_event"]
