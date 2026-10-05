@@ -1,6 +1,7 @@
 extends Control
 @onready var confirmation_dialog: ConfirmationDialog = $ConfirmationDialog
 @onready var food_original: RigidBody2D = $SideBar/food
+@onready var ball_original: RigidBody2D = $SideBar/ball
 
 @onready var side_bar: PanelContainer = $SideBar
 @onready var stats: PanelContainer = $Stats
@@ -45,12 +46,10 @@ func _input(event: InputEvent) -> void:
 					side_bar.show()
 					side_bar_animation.play("show")
 					await side_bar_animation.animation_finished
-					print("showing")
 			else:
 				side_bar_animation.play_backwards("show")
 				await side_bar_animation.animation_finished
 				side_bar.hide()
-				print("hiding")
 			
 			busy = false
 
@@ -62,7 +61,10 @@ func _on_feed_pressed() -> void:
 	add_child(buffer)
 
 func _on_play_pressed() -> void:
-	pass # Replace with function body.
+	var buffer = ball_original.duplicate()
+	buffer.show()
+	buffer.process_mode = Node.PROCESS_MODE_INHERIT
+	add_child(buffer)
 
 func _on_stats_pressed() -> void:
 	if not busy:

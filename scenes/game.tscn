@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dxtfdoxsmkegt"]
 
-[ext_resource type="Script" uid="uid://didbajsr0bb2b" path="res://scripts/game.gd" id="1_uwrxv"]
+[ext_resource type="Script" uid="uid://th06cs7id2e3" path="res://scripts/TransparencyWindow.cs" id="1_u5sy4"]
 [ext_resource type="Script" uid="uid://b4mritxk6cynh" path="res://scripts/char.gd" id="2_lbhrr"]
 [ext_resource type="Texture2D" uid="uid://drqts5bmlpvfx" path="res://assets/mouse/idle_mouse.bmp" id="2_lnu2h"]
 [ext_resource type="Texture2D" uid="uid://vkeyx0r8bv3j" path="res://assets/mouse/walk2_mouse.bmp" id="3_lbhrr"]
@@ -189,8 +189,8 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c12me"]
 size = Vector2(96, 84)
 
-[node name="Node2D" type="Node2D" unique_id=2051751882]
-script = ExtResource("1_uwrxv")
+[node name="game" type="Node2D" unique_id=2051751882]
+script = ExtResource("1_u5sy4")
 
 [node name="GUI" parent="." unique_id=1860797197 instance=ExtResource("7_u5sy4")]
 offset_left = 0.0

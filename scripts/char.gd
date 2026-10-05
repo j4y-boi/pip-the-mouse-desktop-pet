@@ -5,6 +5,12 @@ const SPEED = 200.0
 const JUMP_VELOCITY = -350.0
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+var idle_timer = 0.0
+var is_idling = false
+
+var is_dragging = false
+var drag_offset = Vector2()
+
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y += gravity * delta

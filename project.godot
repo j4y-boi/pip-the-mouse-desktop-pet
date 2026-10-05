@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Pip the Mouse: Desktop edition"
-config/features=PackedStringArray("4.7", "GL Compatibility")
+config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -29,6 +29,10 @@ window/size/transparent=true
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/per_pixel_transparency/allowed=true
+
+[dotnet]
+
+project/assembly_name="Pip the Mouse- Desktop edition"
 
 [editor_plugins]
 

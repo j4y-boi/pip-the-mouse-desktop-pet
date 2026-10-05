@@ -20,7 +20,8 @@ var throw = Vector2.ZERO
 
 func _ready() -> void:
 	food.global_position = Vector2(56.5,540)
-	sprite.texture = load(used)
+	if not sprite.texture.resource_path == "res://assets/ball.png":
+		sprite.texture = load(used)
 	launch()
 
 func launch() -> void:

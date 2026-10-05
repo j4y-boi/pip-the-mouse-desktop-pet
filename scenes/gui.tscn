@@ -55,10 +55,13 @@ _data = {
 }
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_08a8y"]
-bounce = 0.5
+bounce = 0.75
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7yii4"]
 size = Vector2(65, 65)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_psqps"]
+radius = 32.0
 
 [sub_resource type="Animation" id="Animation_b8iy7"]
 length = 0.001
@@ -166,6 +169,24 @@ shape = SubResource("RectangleShape2D_7yii4")
 [node name="sprite" type="Sprite2D" parent="SideBar/food" unique_id=1623398500]
 scale = Vector2(3, 3)
 texture = ExtResource("1_ynd5l")
+
+[node name="ball" type="RigidBody2D" parent="SideBar" unique_id=961777563]
+process_mode = 4
+visible = false
+z_as_relative = false
+position = Vector2(553, -397)
+mass = 0.1
+physics_material_override = SubResource("PhysicsMaterial_08a8y")
+freeze_mode = 1
+linear_velocity = Vector2(100, 0)
+script = ExtResource("5_jqlde")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SideBar/ball" unique_id=2121457351]
+shape = SubResource("CircleShape2D_psqps")
+
+[node name="sprite" type="Sprite2D" parent="SideBar/ball" unique_id=310594239]
+scale = Vector2(3, 3)
+texture = ExtResource("2_b8iy7")
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="." unique_id=1799231455]
 title = "are u sure?"
