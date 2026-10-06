@@ -1,6 +1,7 @@
 extends RigidBody2D
 @onready var sprite: Sprite2D = $sprite
 @onready var food: RigidBody2D = $"."
+var pip: CharacterBody2D
 
 var sprites = [
 	"res://assets/food/apple_slice.png",
@@ -19,9 +20,14 @@ var drag_target := Vector2.ZERO
 var throw = Vector2.ZERO
 
 func _ready() -> void:
+	if get_parent().name == "SideBar": #shut up
+		pip = $"../../../CharacterBody2D"
+	else:
+		pip = $"../../CharacterBody2D"
 	food.global_position = Vector2(56.5,540)
 	if not sprite.texture.resource_path == "res://assets/ball.png":
 		sprite.texture = load(used)
+	pip.ate.connect(check_food)
 	launch()
 
 func launch() -> void:
@@ -48,3 +54,7 @@ func _input(event): #taken from the godot docs and modified cuz im too lazy
 	if event is InputEventMouseMotion and dragging:
 		drag_target = get_global_mouse_position()
 		throw = event.velocity
+
+func check_food(name2:String):
+	if name2 == name:
+		queue_free()

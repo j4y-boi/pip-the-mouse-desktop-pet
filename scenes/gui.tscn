@@ -158,7 +158,7 @@ expand_icon = true
 [node name="SideBarAnimation" type="AnimationPlayer" parent="SideBar" unique_id=99741394]
 libraries/ = SubResource("AnimationLibrary_4yt8u")
 
-[node name="food" type="RigidBody2D" parent="SideBar" unique_id=579680537]
+[node name="food" type="RigidBody2D" parent="SideBar" unique_id=579680537 groups=["food"]]
 process_mode = 4
 visible = false
 z_as_relative = false
@@ -176,7 +176,7 @@ shape = SubResource("RectangleShape2D_7yii4")
 scale = Vector2(3, 3)
 texture = ExtResource("1_ynd5l")
 
-[node name="ball" type="RigidBody2D" parent="SideBar" unique_id=961777563]
+[node name="ball" type="RigidBody2D" parent="SideBar" unique_id=961777563 groups=["ball"]]
 process_mode = 4
 visible = false
 z_as_relative = false

@@ -4,9 +4,11 @@
 [ext_resource type="Script" uid="uid://b4mritxk6cynh" path="res://scripts/char.gd" id="2_lbhrr"]
 [ext_resource type="Texture2D" uid="uid://drqts5bmlpvfx" path="res://assets/mouse/idle_mouse.bmp" id="2_lnu2h"]
 [ext_resource type="Texture2D" uid="uid://vkeyx0r8bv3j" path="res://assets/mouse/walk2_mouse.bmp" id="3_lbhrr"]
+[ext_resource type="Texture2D" uid="uid://c0pab7iriw1m8" path="res://assets/mouse/fed.png" id="4_gee14"]
 [ext_resource type="Texture2D" uid="uid://cp5s2e461y1an" path="res://assets/mouse/itch_mouse.bmp" id="4_p57ef"]
 [ext_resource type="Texture2D" uid="uid://ceuv4pp7schqq" path="res://assets/mouse/look.png" id="5_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://be201yhrppbco" path="res://scenes/gui.tscn" id="7_u5sy4"]
+[ext_resource type="Texture2D" uid="uid://dgyo8cvrk3uki" path="res://assets/mouse/play_mouse.bmp" id="8_0tnpc"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_0tnpc"]
 
@@ -15,6 +17,14 @@ normal = Vector2(1, 0)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_xy8r0"]
 normal = Vector2(-1, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1kice"]
+atlas = ExtResource("4_gee14")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5newe"]
+atlas = ExtResource("4_gee14")
+region = Rect2(0, 48, 48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cb5na"]
 atlas = ExtResource("2_lnu2h")
@@ -88,6 +98,18 @@ region = Rect2(0, 0, 32, 32)
 atlas = ExtResource("5_u5sy4")
 region = Rect2(0, 32, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_37s47"]
+atlas = ExtResource("8_0tnpc")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bt5mj"]
+atlas = ExtResource("8_0tnpc")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e1j6l"]
+atlas = ExtResource("8_0tnpc")
+region = Rect2(128, 0, 64, 64)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_k2t1h"]
 atlas = ExtResource("3_lbhrr")
 region = Rect2(0, 0, 32, 32)
@@ -102,6 +124,17 @@ region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_iywne"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1kice")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5newe")
+}],
+"loop": 1,
+"name": &"fed",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cb5na")
@@ -172,6 +205,20 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_37s47")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_bt5mj")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_e1j6l")
+}],
+"loop": 1,
+"name": &"play",
+"speed": 5.0
+}, {
+"frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_k2t1h")
 }, {
@@ -196,7 +243,7 @@ script = ExtResource("1_u5sy4")
 offset_left = 0.0
 offset_right = 0.0
 
-[node name="boundaries" type="StaticBody2D" parent="." unique_id=499436626]
+[node name="boundaries" type="StaticBody2D" parent="." unique_id=499436626 groups=["walls"]]
 position = Vector2(960, 1015)
 
 [node name="floor" type="CollisionShape2D" parent="boundaries" unique_id=1878036520]
@@ -212,6 +259,8 @@ shape = SubResource("WorldBoundaryShape2D_xy8r0")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1825865480]
 position = Vector2(741, 491)
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("2_lbhrr")
 
 [node name="sprite" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=686256694]
@@ -230,4 +279,5 @@ shape = SubResource("RectangleShape2D_c12me")
 position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_c12me")
 
+[connection signal="animation_changed" from="CharacterBody2D/sprite" to="CharacterBody2D" method="_on_sprite_animation_changed"]
 [connection signal="input_event" from="CharacterBody2D/Area2D" to="CharacterBody2D" method="_on_area_2d_input_event"]

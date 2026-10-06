@@ -72,6 +72,7 @@ func _on_feed_pressed() -> void:
 	GameState.times_fed += 1
 	var buffer = food_original.duplicate() #WHAT THE HELL IS THIS FOR THEN IF I NEED TO ADD IT ANYWAY
 	buffer.show()
+	buffer.name = "food_copy"
 	buffer.process_mode = Node.PROCESS_MODE_INHERIT
 	add_child(buffer)
 
@@ -79,6 +80,7 @@ func _on_play_pressed() -> void:
 	var buffer = ball_original.duplicate()
 	buffer.show()
 	buffer.process_mode = Node.PROCESS_MODE_INHERIT
+	buffer.name = "ball_copy"
 	add_child(buffer)
 
 func _on_stats_pressed() -> void:
