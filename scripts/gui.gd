@@ -1,7 +1,9 @@
 extends Control
 @onready var confirmation_dialog: ConfirmationDialog = $ConfirmationDialog
+@onready var deletion_dialog: ConfirmationDialog = $DeletionDialog
 @onready var food_original: RigidBody2D = $SideBar/food
 @onready var ball_original: RigidBody2D = $SideBar/ball
+@onready var clone_holder: Node = $CloneHolder
 
 @onready var side_bar: PanelContainer = $SideBar
 @onready var stats: PanelContainer = $Stats
@@ -9,10 +11,11 @@ extends Control
 @onready var side_bar_animation: AnimationPlayer = $SideBar/SideBarAnimation
 @onready var stat_animations: AnimationPlayer = $Stats/StatAnimations
 
-@onready var alive_time: RichTextLabel = $Stats/Content/AliveTime
+@onready var play_count: RichTextLabel = $Stats/Content/PlayCount
 @onready var feed_count: RichTextLabel = $Stats/Content/FeedCount
 @onready var playtime_total: RichTextLabel = $Stats/Content/PlaytimeTotal
-@onready var restart_count: RichTextLabel = $Stats/Content/RestartCount
+@onready var spawn_count: RichTextLabel = $Stats/Content/SpawnCount
+
 
 var busy = false #true if stuffs moving around
 var menuopen = false #omdddd ts a hotfix but idrgaf atm
@@ -33,10 +36,10 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	GameState.total_playtime += delta
 	if stats.visible:
-		alive_time.text = convert_int_time_to_string(GameState.time_alive)
+		play_count.text = str(GameState.times_played)
 		feed_count.text = str(GameState.times_fed)
 		playtime_total.text = convert_int_time_to_string(GameState.total_playtime)
-		restart_count.text = str(GameState.times_restarted)
+		spawn_count.text = str(GameState.items_spawned)
 	
 	if menuopen and not busy and not stats.visible:
 		var mouse = get_global_mouse_position()
@@ -67,21 +70,27 @@ func menu_toggle(toggle = null): #some questionable choices were made
 func _input(event: InputEvent) -> void:
 	if event.is_action_released("menu"):
 		menu_toggle()
+	
+	if event.is_action_pressed("explode"):
+		for child in clone_holder.get_children():
+			child.linear_velocity = Vector2(randi_range(-8000,8000),randi_range(0,2000))
+			child.angular_velocity = randi_range(-1000,1000)
 
 func _on_feed_pressed() -> void:
-	GameState.times_fed += 1
+	GameState.items_spawned += 1
 	var buffer = food_original.duplicate() #WHAT THE HELL IS THIS FOR THEN IF I NEED TO ADD IT ANYWAY
 	buffer.show()
 	buffer.name = "food_copy"
 	buffer.process_mode = Node.PROCESS_MODE_INHERIT
-	add_child(buffer)
+	clone_holder.add_child(buffer)
 
 func _on_play_pressed() -> void:
+	GameState.items_spawned += 1
 	var buffer = ball_original.duplicate()
 	buffer.show()
 	buffer.process_mode = Node.PROCESS_MODE_INHERIT
 	buffer.name = "ball_copy"
-	add_child(buffer)
+	clone_holder.add_child(buffer)
 
 func _on_stats_pressed() -> void:
 	if not busy:
@@ -100,13 +109,14 @@ func _on_quit_pressed() -> void:
 	confirmation_dialog.popup_centered()
 
 func _on_confirmation_dialog_confirmed() -> void:
+	GameState.saveData()
 	get_tree().quit()
 
 func _on_stat_exit_pressed() -> void:
 	if not busy:
 		busy = true
-		side_bar.show()
-		side_bar_animation.play("show")
+		#side_bar.show()
+		#side_bar_animation.play("show")
 		stat_animations.play_backwards("show")
 		await stat_animations.animation_finished
 		stats.hide()
@@ -115,3 +125,34 @@ func _on_stat_exit_pressed() -> void:
 func _on_interact_enter_mouse_shape_entered(_shape_idx: int) -> void: #idek if this ones better but dont touch it if it aint broken
 	if not menuopen:
 		menu_toggle(true)
+
+func _on_clear_pressed() -> void:
+	for child in clone_holder.get_children():
+		child.queue_free()
+
+func _on_button_2_pressed() -> void:
+	GameState.saveData()
+
+func _on_promo_pressed() -> void:
+	OS.shell_open("https://taxfraud.dev/")
+	if not busy:
+		busy = true
+		stat_animations.play_backwards("show")
+		await stat_animations.animation_finished
+		stats.hide()
+		busy = false
+
+func _on_itch_button_pressed() -> void:
+	OS.shell_open("https://j4y-boi.itch.io/")
+	if not busy:
+		busy = true
+		stat_animations.play_backwards("show")
+		await stat_animations.animation_finished
+		stats.hide()
+		busy = false
+
+func _on_clear_button_pressed() -> void:
+	deletion_dialog.popup_centered()
+
+func _on_deletion_dialog_confirmed() -> void:
+	GameState.clearData()

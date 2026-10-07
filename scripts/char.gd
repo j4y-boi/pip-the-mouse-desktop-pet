@@ -38,7 +38,6 @@ func locate_mouse() -> Vector2:
 	return Vector2(DisplayServer.mouse_get_position() - DisplayServer.window_get_position())
 
 func _physics_process(delta: float) -> void:
-	GameState.time_alive += delta
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		
@@ -82,7 +81,9 @@ func _physics_process(delta: float) -> void:
 				idle_timer = randf_range(2.0,4.0)
 				if collider.is_in_group("food"): #son
 					sprite.play("fed")
+					GameState.times_fed += 1
 				else:
+					GameState.times_played += 1
 					sprite.play("play")
 				ate.emit(collider.name)
 				break

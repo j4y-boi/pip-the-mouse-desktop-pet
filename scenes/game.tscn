@@ -12,6 +12,9 @@
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_0tnpc"]
 
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_kvpfn"]
+normal = Vector2(0, 1)
+
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_vtaks"]
 normal = Vector2(1, 0)
 
@@ -248,6 +251,10 @@ position = Vector2(960, 1015)
 
 [node name="floor" type="CollisionShape2D" parent="boundaries" unique_id=1878036520]
 shape = SubResource("WorldBoundaryShape2D_0tnpc")
+
+[node name="top" type="CollisionShape2D" parent="boundaries" unique_id=790801325]
+position = Vector2(0, -8000)
+shape = SubResource("WorldBoundaryShape2D_kvpfn")
 
 [node name="LWall" type="CollisionShape2D" parent="boundaries" unique_id=806279205]
 position = Vector2(-960, 0)

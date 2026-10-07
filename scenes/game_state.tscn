@@ -1,6 +1,24 @@
 [gd_scene format=3 uid="uid://c0spya6dklvbm"]
 
 [ext_resource type="Script" uid="uid://brciair3l68of" path="res://scripts/game_state.gd" id="1_321hb"]
+[ext_resource type="Texture2D" uid="uid://b2khhi5pmgqar" path="res://assets/save.png" id="2_jy5aj"]
 
-[node name="Node" type="Node" unique_id=387474619]
+[node name="game_state" type="Node" unique_id=387474619]
 script = ExtResource("1_321hb")
+
+[node name="AutosaveTimer" type="Timer" parent="." unique_id=1295485884]
+wait_time = 30.0
+autostart = true
+
+[node name="SaveIcon" type="Sprite2D" parent="." unique_id=1135861844]
+visible = false
+position = Vector2(64, 64)
+scale = Vector2(2, 2)
+texture = ExtResource("2_jy5aj")
+
+[node name="SaveIconTimer" type="Timer" parent="." unique_id=1877838103]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="timeout" from="AutosaveTimer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="SaveIconTimer" to="." method="_on_save_icon_timer_timeout"]

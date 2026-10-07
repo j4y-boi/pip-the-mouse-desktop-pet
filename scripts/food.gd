@@ -20,10 +20,7 @@ var drag_target := Vector2.ZERO
 var throw = Vector2.ZERO
 
 func _ready() -> void:
-	if get_parent().name == "SideBar": #shut up
-		pip = $"../../../CharacterBody2D"
-	else:
-		pip = $"../../CharacterBody2D"
+	pip = $"../../../CharacterBody2D"
 	food.global_position = Vector2(56.5,540)
 	if not sprite.texture.resource_path == "res://assets/ball.png":
 		sprite.texture = load(used)
