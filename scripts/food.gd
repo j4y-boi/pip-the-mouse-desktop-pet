@@ -43,6 +43,7 @@ func _input(event): #taken from the godot docs and modified cuz im too lazy
 		if (event.position - food.position).length() < click_radius:
 			if not dragging and event.pressed:
 				dragging = true
+				sleeping = false
 				drag_target = get_global_mouse_position()
 		if dragging and not event.pressed:
 			dragging = false

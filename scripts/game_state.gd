@@ -3,11 +3,16 @@ extends Node
 @onready var game_floor: StaticBody2D = $"../game/boundaries"
 @onready var save_icon: Sprite2D = $SaveIcon
 @onready var save_icon_timer: Timer = $SaveIconTimer
+@onready var autosave_timer: Timer = $AutosaveTimer
 
 var times_played = 0
 var times_fed = 0
-var total_playtime = 0
+var total_playtime = 0.0
 var items_spawned = 0
+var first_start = false
+
+var possible_save_times = [30,60,120,"Disabled"]
+var current_interval_index = 0
 
 var blinky := create_tween().set_loops().set_trans(Tween.TRANS_SINE)
 func _ready() -> void:
@@ -28,8 +33,9 @@ const save_location = "user://savefile.json"
 var contents_to_save: Dictionary = {
 	"times_played" : 0,
 	"times_fed" : 0,
-	"total_playtime" : 0,
-	"items_spanwed" : 0,
+	"total_playtime" : 0.0,
+	"items_spawned" : 0,
+	"current_interval_index" : 0,
 }
 
 func saveData():
@@ -37,7 +43,8 @@ func saveData():
 	contents_to_save["times_fed"] = times_fed
 	contents_to_save["times_played"] = times_played
 	contents_to_save["total_playtime"] = total_playtime
-	contents_to_save["items_spanwed"] = items_spawned
+	contents_to_save["items_spawned"] = items_spawned
+	contents_to_save["current_interval_index"] = current_interval_index
 	print("saving")
 	print(contents_to_save)
 	file = FileAccess.open_encrypted_with_pass(save_location, FileAccess.WRITE, "woahsecurity")
@@ -50,7 +57,7 @@ func clearData():
 	DirAccess.remove_absolute(save_location)
 	times_fed = 0
 	times_played = 0
-	total_playtime = 0
+	total_playtime = 0.0
 	items_spawned = 0
 	$"../game/GUI"._on_clear_pressed()
 	loadData()
@@ -60,7 +67,6 @@ func loadData():
 		print("Loading save data")
 		var file
 		file = FileAccess.open_encrypted_with_pass(save_location, FileAccess.READ,"woahsecurity")
-		file.close()
 		
 		var data = file.get_var()
 		file.close()
@@ -76,10 +82,25 @@ func loadData():
 		times_fed = contents_to_save["times_fed"]
 		times_played = contents_to_save["times_played"]
 		total_playtime = contents_to_save["total_playtime"]
-		items_spawned = contents_to_save["items_spanwed"]
+		items_spawned = contents_to_save["items_spawned"]
+		current_interval_index = contents_to_save["current_interval_index"]
 	else:
+		first_start = true
 		print("Created save data")
 		saveData()
+
+func change_save_interval(index:int=9999):
+	if index == 9999:
+		current_interval_index = (current_interval_index + 1) % len(possible_save_times)
+	else:
+		current_interval_index = index
+	
+	if str(possible_save_times[current_interval_index]) == "Disabled":
+		autosave_timer.stop()
+	else:
+		autosave_timer.wait_time = possible_save_times[current_interval_index]
+		autosave_timer.stop()
+		autosave_timer.start()
 
 func _on_timer_timeout() -> void:
 	saveData()

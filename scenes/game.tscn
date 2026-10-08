@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://ceuv4pp7schqq" path="res://assets/mouse/look.png" id="5_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://be201yhrppbco" path="res://scenes/gui.tscn" id="7_u5sy4"]
 [ext_resource type="Texture2D" uid="uid://dgyo8cvrk3uki" path="res://assets/mouse/play_mouse.bmp" id="8_0tnpc"]
+[ext_resource type="Texture2D" uid="uid://boxbd75ogmaht" path="res://assets/mouse/sleep_mouse.bmp" id="9_vtaks"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_0tnpc"]
 
@@ -112,6 +113,30 @@ region = Rect2(64, 0, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_e1j6l"]
 atlas = ExtResource("8_0tnpc")
 region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pl11u"]
+atlas = ExtResource("9_vtaks")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bhx41"]
+atlas = ExtResource("9_vtaks")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qnb83"]
+atlas = ExtResource("9_vtaks")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sww3w"]
+atlas = ExtResource("9_vtaks")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_suyxu"]
+atlas = ExtResource("9_vtaks")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sgl2t"]
+atlas = ExtResource("9_vtaks")
+region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k2t1h"]
 atlas = ExtResource("3_lbhrr")
@@ -223,6 +248,29 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_pl11u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bhx41")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qnb83")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sww3w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_suyxu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sgl2t")
+}],
+"loop": 1,
+"name": &"sleep",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_k2t1h")
 }, {
 "duration": 1.0,
@@ -237,7 +285,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c12me"]
-size = Vector2(96, 84)
+size = Vector2(96, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0tnpc"]
+size = Vector2(150, 108)
 
 [node name="game" type="Node2D" unique_id=2051751882]
 script = ExtResource("1_u5sy4")
@@ -273,18 +324,25 @@ script = ExtResource("2_lbhrr")
 [node name="sprite" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=686256694]
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_iywne")
-animation = &"walk"
+animation = &"sleep"
 autoplay = "walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1518091037]
-position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_c12me")
 
-[node name="Area2D" type="Area2D" parent="CharacterBody2D" unique_id=1444873570]
+[node name="ColorRect" type="ColorRect" parent="CharacterBody2D/CollisionShape2D" unique_id=744745499]
+visible = false
+offset_left = -48.0
+offset_top = -48.0
+offset_right = 48.0
+offset_bottom = 48.0
+color = Color(1, 0, 0, 0.44313726)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/Area2D" unique_id=1853862396]
-position = Vector2(0, 3)
-shape = SubResource("RectangleShape2D_c12me")
+[node name="drag" type="Area2D" parent="CharacterBody2D" unique_id=1444873570]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/drag" unique_id=1704866926]
+position = Vector2(21, 0)
+shape = SubResource("RectangleShape2D_0tnpc")
 
 [connection signal="animation_changed" from="CharacterBody2D/sprite" to="CharacterBody2D" method="_on_sprite_animation_changed"]
-[connection signal="input_event" from="CharacterBody2D/Area2D" to="CharacterBody2D" method="_on_area_2d_input_event"]
+[connection signal="input_event" from="CharacterBody2D/drag" to="CharacterBody2D" method="_on_area_2d_input_event"]

@@ -1,12 +1,16 @@
 extends Control
 @onready var confirmation_dialog: ConfirmationDialog = $ConfirmationDialog
 @onready var deletion_dialog: ConfirmationDialog = $DeletionDialog
+
 @onready var food_original: RigidBody2D = $SideBar/food
 @onready var ball_original: RigidBody2D = $SideBar/ball
 @onready var clone_holder: Node = $CloneHolder
+@onready var smoke: GPUParticles2D = $smoke
 
 @onready var side_bar: PanelContainer = $SideBar
 @onready var stats: PanelContainer = $Stats
+@onready var save_interval_button: Button = $Stats/Content/ExtraButtons/SaveInterval
+@onready var tutorial: HBoxContainer = $Tutorial
 
 @onready var side_bar_animation: AnimationPlayer = $SideBar/SideBarAnimation
 @onready var stat_animations: AnimationPlayer = $Stats/StatAnimations
@@ -15,7 +19,6 @@ extends Control
 @onready var feed_count: RichTextLabel = $Stats/Content/FeedCount
 @onready var playtime_total: RichTextLabel = $Stats/Content/PlaytimeTotal
 @onready var spawn_count: RichTextLabel = $Stats/Content/SpawnCount
-
 
 var busy = false #true if stuffs moving around
 var menuopen = false #omdddd ts a hotfix but idrgaf atm
@@ -32,6 +35,9 @@ func convert_int_time_to_string(time:int) -> String:
 func _ready() -> void:
 	stats.hide()
 	side_bar.hide()
+	if GameState.first_start:
+		tutorial.show()
+		tutorial.position = Vector2(710,425)
 
 func _process(delta: float) -> void:
 	GameState.total_playtime += delta
@@ -93,6 +99,11 @@ func _on_play_pressed() -> void:
 	clone_holder.add_child(buffer)
 
 func _on_stats_pressed() -> void:
+	if busy:
+		var anim_length = side_bar_animation.current_animation_length
+		side_bar_animation.seek(anim_length, true)
+		busy = false
+		
 	if not busy:
 		busy = true
 		
@@ -104,6 +115,7 @@ func _on_stats_pressed() -> void:
 		
 		side_bar.hide()
 		busy = false
+		menuopen = false
 	
 func _on_quit_pressed() -> void:
 	confirmation_dialog.popup_centered()
@@ -113,37 +125,40 @@ func _on_confirmation_dialog_confirmed() -> void:
 	get_tree().quit()
 
 func _on_stat_exit_pressed() -> void:
-	if not busy:
-		busy = true
+	#if not busy:
+		#busy = true
 		#side_bar.show()
 		#side_bar_animation.play("show")
-		stat_animations.play_backwards("show")
-		await stat_animations.animation_finished
-		stats.hide()
-		busy = false
+	busy = false
+	stat_animations.play_backwards("show")
+	await stat_animations.animation_finished
+	stats.hide()
+	
+		#busy = false
 
 func _on_interact_enter_mouse_shape_entered(_shape_idx: int) -> void: #idek if this ones better but dont touch it if it aint broken
 	if not menuopen:
+		if GameState.first_start:
+			tutorial.hide()
 		menu_toggle(true)
+
+func do_the_particle(smoke_position):
+	var particle = smoke.duplicate()
+	particle.finished.connect(particle.queue_free)
+	particle.global_position = smoke_position
+	particle.show()
+	particle.emitting = true
+	add_child(particle)
 
 func _on_clear_pressed() -> void:
 	for child in clone_holder.get_children():
+		do_the_particle(child.global_position)
 		child.queue_free()
 
 func _on_button_2_pressed() -> void:
 	GameState.saveData()
 
-func _on_promo_pressed() -> void:
-	OS.shell_open("https://taxfraud.dev/")
-	if not busy:
-		busy = true
-		stat_animations.play_backwards("show")
-		await stat_animations.animation_finished
-		stats.hide()
-		busy = false
-
 func _on_itch_button_pressed() -> void:
-	OS.shell_open("https://j4y-boi.itch.io/")
 	if not busy:
 		busy = true
 		stat_animations.play_backwards("show")
@@ -156,3 +171,11 @@ func _on_clear_button_pressed() -> void:
 
 func _on_deletion_dialog_confirmed() -> void:
 	GameState.clearData()
+
+func _on_save_interval_pressed() -> void:
+	GameState.change_save_interval()
+	var save_interval = str(GameState.possible_save_times[GameState.current_interval_index])
+	if save_interval == "Disabled":
+		save_interval_button.text = "Autosave Disabled"
+	else:
+		save_interval_button.text = "Save Interval: " + save_interval + "s"

@@ -1,29 +1,31 @@
 extends CharacterBody2D
 
 @onready var sprite: AnimatedSprite2D = $sprite
-@onready var area_2d: Area2D = $Area2D
 
 signal ate(name:String)
 
-var speed = 300
+var speed:int = 300
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
+var walk_target:int = 0
+var consecutive_actions:int = 0
 
 var direction = Vector2(1,0)
 var screen_size = Vector2()
 var window_size = Vector2(200,200)
 
-var idle_timer = 0.0
-var is_idling = false
+var idle_timer:float = 0.0
+var is_idling:bool = false
 
-var is_dragging = false
+var is_dragging:bool = false
 var drag_offset = Vector2()
 
 func _ready() -> void:
 	screen_size = Vector2(DisplayServer.screen_get_size())
 	sprite.play("walk")
 
-func idle_chance():
-	if randf() < 0.3:
+func idle_chance(overwrite:bool=false):
+	walk_target = randi_range(360,DisplayServer.window_get_size().x-360)
+	if randf() < 0.3 or overwrite:
 		is_idling = true
 		var anims = ["idle","itch","look"]
 		var chosen = anims.pick_random()
@@ -32,10 +34,16 @@ func idle_chance():
 		else:
 			idle_timer = randf_range(1.0,4.0)
 		sprite.play(chosen) #i didnt even know that pick_random() existed
+		consecutive_actions += 1
 		speed = 0
 
-func locate_mouse() -> Vector2:
-	return Vector2(DisplayServer.mouse_get_position() - DisplayServer.window_get_position())
+func locate_mouse() -> Vector2: 
+	#uhhhh so i made the game run at 1080p to prevent scaling
+	#but that causes drift in mouse if youre not using a 1080p screen
+	#hotfix
+	var positon = Vector2(DisplayServer.mouse_get_position() - DisplayServer.window_get_position())
+	var screen_mult = get_viewport_rect().size / Vector2(DisplayServer.window_get_size())
+	return positon * screen_mult
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
@@ -66,6 +74,8 @@ func _physics_process(delta: float) -> void:
 	velocity.x = direction.x * speed
 	move_and_slide()
 	
+	
+	
 	if is_on_wall():
 		for i in get_slide_collision_count():
 			var collider = get_slide_collision(i).get_collider()
@@ -88,7 +98,7 @@ func _physics_process(delta: float) -> void:
 				ate.emit(collider.name)
 				break
 
-func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+func _on_area_2d_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
 		is_dragging = true
 		is_idling = false
@@ -101,6 +111,6 @@ func _on_sprite_animation_changed() -> void:
 	if sprite.animation.get_basename() == "fed": #fed animation is 48x48 instead of ususal 32x32, offset by 8 so pip stays in the same spot
 		sprite.offset = Vector2(8,-8)
 	elif sprite.animation.get_basename() == "play":
-		sprite.offset = Vector2(4,-16)
+		sprite.offset = Vector2(0,-16)
 	else:
 		sprite.offset = Vector2.ZERO
