@@ -385,7 +385,7 @@ size_flags_horizontal = 10
 size_flags_vertical = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "Open itch.io page"
-uri = "https://j4y-boi.itch.io/"
+uri = "https://j4y-boi.itch.io/pip-the-mouse-desktop-edition"
 
 [node name="StatAnimations" type="AnimationPlayer" parent="Stats" unique_id=1149104176]
 libraries/ = SubResource("AnimationLibrary_08a8y")
