@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 @export var push_force: float = 150.0
 @onready var sprite: AnimatedSprite2D = $sprite
+@onready var drag_particle_1: GPUParticles2D = $DragParticle1
+@onready var drag_particle_2: GPUParticles2D = $DragParticle2
 
 signal ate(name:String)
 
@@ -21,9 +23,23 @@ var is_idling:bool = false
 var is_dragging:bool = false
 var drag_offset = Vector2()
 
+var swing_time = 0.0
+var swing_speed = 3.0
+var swing_amount = deg_to_rad(30)
+var base_position = Vector2()
+
 func _ready() -> void:
 	screen_size = Vector2(DisplayServer.screen_get_size())
 	sprite.play("walk")
+	base_position = sprite.position
+	# originally planned to give pip sweat particles during dragging (like trying to erase mario in smm2)
+	# but i cant quite get the look right, so shelving this for now
+	#drag_particle_1.emitting = false
+	#drag_particle_2.emitting = false
+	#
+	#var img = drag_particle_2.texture.get_image()
+	#img.flip_x()
+	#drag_particle_2.texture = ImageTexture.create_from_image(img)
 
 func idle_chance(overwrite:bool=false):
 	if randf() < 0.3 or overwrite:
@@ -66,6 +82,14 @@ func _physics_process(delta: float) -> void:
 			is_dragging = false	
 			sprite.play("walk")
 			speed = 300
+			velocity.x *= 0.25
+			velocity.y *= 0.5
+			
+			sprite.rotation = 0.0
+			sprite.position = base_position
+			
+			#drag_particle_1.emitting = false
+			#drag_particle_2.emitting = false
 		else:
 			set_collision_mask_value(2, false)
 			var target = locate_mouse() - drag_offset
@@ -73,8 +97,14 @@ func _physics_process(delta: float) -> void:
 			target.y = clamp(target.y, 0, screen_size.y - window_size.y)
 			velocity = (target - position) / delta
 			speed = 0
+			
+			swing_time += delta * swing_speed
+			sprite.rotation = sin(swing_time) * swing_amount
+			sprite.position = drag_offset + (base_position - drag_offset).rotated(sprite.rotation)
+			
+			#drag_particle_1.emitting = true
+			#drag_particle_2.emitting = true
 		move_and_slide()
-		push_stuff()
 		return
 	
 	if is_idling:
@@ -87,7 +117,8 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		return
 		
-	velocity.x = direction.x * speed
+	if is_on_floor():
+		velocity.x = direction.x * speed
 	move_and_slide()
 	push_stuff()
 	
@@ -115,10 +146,12 @@ func _physics_process(delta: float) -> void:
 
 func _on_area_2d_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
+		swing_time = 0.0
 		is_dragging = true
 		is_idling = false
 		speed = 300
 		drag_offset = locate_mouse() - position
+		sprite.play("walk")
 
 func _on_sprite_animation_changed() -> void:
 	if sprite== null: #bro godot twaeking if i dont do this
@@ -135,7 +168,6 @@ func _on_sprite_animation_changed() -> void:
 			sprite.offset = Vector2(-4,-16)
 	else:
 		sprite.offset = Vector2.ZERO
-
 
 func _on_rigidbody_detetcor_body_entered(body: Node2D) -> void:
 	print( body.name, " | id: ", body.get_instance_id())

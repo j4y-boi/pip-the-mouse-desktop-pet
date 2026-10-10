@@ -9,7 +9,7 @@ var sprites = [
 	"res://assets/food/cheese.png",
 	"res://assets/food/sunflowerseed.png",
 ]
-var launch_speed: float = 600.0
+var launch_speed: float = randi_range(500,800)
 var angle = randi_range(-80,-20)
 var used = sprites[randi_range(0,len(sprites)-1)]
 
@@ -31,6 +31,7 @@ func launch() -> void:
 	angle = deg_to_rad(angle)
 	var direction := Vector2(cos(angle), sin(angle))
 	apply_central_impulse(direction * launch_speed)
+	angular_velocity = randi_range(0,40)
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void: #this nullifies forces while dragigng
 	if dragging:

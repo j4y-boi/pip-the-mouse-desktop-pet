@@ -35,9 +35,16 @@ func convert_int_time_to_string(time:int) -> String:
 func _ready() -> void:
 	stats.hide()
 	side_bar.hide()
+	smoke.emitting = true
 	if GameState.first_start:
 		tutorial.show()
 		tutorial.position = Vector2(710,425)
+		
+	var save_interval = str(GameState.possible_save_times[GameState.current_interval_index])
+	if save_interval == "Disabled":
+		save_interval_button.text = "Autosave Disabled"
+	else:
+		save_interval_button.text = "Save Interval: " + save_interval + "s"
 
 func _process(delta: float) -> void:
 	GameState.total_playtime += delta
@@ -125,16 +132,10 @@ func _on_confirmation_dialog_confirmed() -> void:
 	get_tree().quit()
 
 func _on_stat_exit_pressed() -> void:
-	#if not busy:
-		#busy = true
-		#side_bar.show()
-		#side_bar_animation.play("show")
 	busy = false
 	stat_animations.play_backwards("show")
 	await stat_animations.animation_finished
 	stats.hide()
-	
-		#busy = false
 
 func _on_interact_enter_mouse_shape_entered(_shape_idx: int) -> void: #idek if this ones better but dont touch it if it aint broken
 	if not menuopen:

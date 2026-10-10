@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://be201yhrppbco" path="res://scenes/gui.tscn" id="7_u5sy4"]
 [ext_resource type="Texture2D" uid="uid://dgyo8cvrk3uki" path="res://assets/mouse/play_mouse.bmp" id="8_0tnpc"]
 [ext_resource type="Texture2D" uid="uid://boxbd75ogmaht" path="res://assets/mouse/sleep_mouse.bmp" id="9_vtaks"]
+[ext_resource type="Texture2D" uid="uid://bthsqsvm3pajt" path="res://assets/water.png" id="11_kvpfn"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_0tnpc"]
 
@@ -293,6 +294,22 @@ size = Vector2(109, 108)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xy8r0"]
 size = Vector2(96, 3)
 
+[sub_resource type="Gradient" id="Gradient_dinhu"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xy8r0"]
+gradient = SubResource("Gradient_dinhu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kvuet"]
+particle_flag_disable_z = true
+angle_min = -49.99999
+angle_max = -49.99999
+direction = Vector3(0, 0, 0)
+initial_velocity_min = 150.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, 500, 0)
+color_ramp = SubResource("GradientTexture1D_xy8r0")
+
 [node name="game" type="Node2D" unique_id=2051751882]
 script = ExtResource("1_u5sy4")
 
@@ -320,7 +337,7 @@ position = Vector2(960, 0)
 shape = SubResource("WorldBoundaryShape2D_xy8r0")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1825865480]
-position = Vector2(741, 491)
+position = Vector2(742, 490)
 floor_stop_on_slope = false
 platform_on_leave = 2
 platform_floor_layers = 4294967041
@@ -329,7 +346,7 @@ script = ExtResource("2_lbhrr")
 [node name="sprite" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=686256694]
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_iywne")
-animation = &"sleep"
+animation = &"walk"
 autoplay = "walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1518091037]
@@ -355,6 +372,27 @@ collision_mask = 6
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/rigidbodyDetetcor" unique_id=1800974652]
 position = Vector2(0, -50.5)
 shape = SubResource("RectangleShape2D_xy8r0")
+
+[node name="DragParticle1" type="GPUParticles2D" parent="CharacterBody2D" unique_id=1482094949]
+visible = false
+position = Vector2(15, -11)
+emitting = false
+amount = 4
+texture = ExtResource("11_kvpfn")
+lifetime = 0.5
+speed_scale = 0.25
+process_material = SubResource("ParticleProcessMaterial_kvuet")
+
+[node name="DragParticle2" type="GPUParticles2D" parent="CharacterBody2D" unique_id=1627935695]
+visible = false
+position = Vector2(1, -11)
+rotation = -3.1415925
+emitting = false
+amount = 4
+texture = ExtResource("11_kvpfn")
+lifetime = 0.5
+speed_scale = 0.25
+process_material = SubResource("ParticleProcessMaterial_kvuet")
 
 [connection signal="animation_changed" from="CharacterBody2D/sprite" to="CharacterBody2D" method="_on_sprite_animation_changed"]
 [connection signal="input_event" from="CharacterBody2D/drag" to="CharacterBody2D" method="_on_area_2d_input_event"]

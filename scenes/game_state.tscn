@@ -20,5 +20,9 @@ texture = ExtResource("2_jy5aj")
 wait_time = 3.0
 one_shot = true
 
+[node name="FPS" type="Label" parent="." unique_id=2012673963]
+offset_right = 40.0
+offset_bottom = 23.0
+
 [connection signal="timeout" from="AutosaveTimer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="SaveIconTimer" to="." method="_on_save_icon_timer_timeout"]

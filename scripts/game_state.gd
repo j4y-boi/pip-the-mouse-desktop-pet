@@ -4,6 +4,7 @@ extends Node
 @onready var save_icon: Sprite2D = $SaveIcon
 @onready var save_icon_timer: Timer = $SaveIconTimer
 @onready var autosave_timer: Timer = $AutosaveTimer
+@onready var fps: Label = $FPS
 
 var times_played = 0
 var times_fed = 0
@@ -11,17 +12,30 @@ var total_playtime = 0.0
 var items_spawned = 0
 var first_start = false
 
+var show_fps = false
+
 var possible_save_times = [30,60,120,"Disabled"]
 var current_interval_index = 0
 
 var blinky := create_tween().set_loops().set_trans(Tween.TRANS_SINE)
 func _ready() -> void:
 	if get_tree().current_scene.name == "game":
-		game_floor.position.y = get_viewport().get_visible_rect().size.y - get_taskbar_height()
+		game_floor.position.y = get_viewport().get_visible_rect().size.y - get_taskbar_height()*0.75
+
+	print(get_taskbar_height())
 
 	blinky.tween_property(save_icon, "modulate:a", 0.6, 0.5)
 	blinky.tween_property(save_icon, "modulate:a", 1.0, 0.5)
 	loadData()
+	
+	for argument in OS.get_cmdline_args():
+		if argument.contains("--fpscounter"):
+			show_fps = true
+	fps.visible = show_fps #this might seem like a detour but this way i can also force enable it when debugging
+
+func _process(delta: float) -> void:
+	if fps.visible:
+		fps.text = "FPS: " + str(Engine.get_frames_per_second())
 
 func get_taskbar_height():
 	return DisplayServer.screen_get_size().y - DisplayServer.screen_get_usable_rect().size.y

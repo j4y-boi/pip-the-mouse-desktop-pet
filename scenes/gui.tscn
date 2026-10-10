@@ -57,11 +57,14 @@ _data = {
 &"show": SubResource("Animation_7yii4")
 }
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_08a8y"]
-bounce = 0.75
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_4yt8u"]
+bounce = 0.35
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7yii4"]
 size = Vector2(65, 65)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_08a8y"]
+bounce = 0.75
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_psqps"]
 radius = 32.0
@@ -204,7 +207,7 @@ position = Vector2(553, -397)
 collision_layer = 2
 collision_mask = 3
 mass = 0.1
-physics_material_override = SubResource("PhysicsMaterial_08a8y")
+physics_material_override = SubResource("PhysicsMaterial_4yt8u")
 freeze_mode = 1
 linear_velocity = Vector2(100, 0)
 script = ExtResource("5_jqlde")
@@ -422,6 +425,7 @@ color = Color(0.8119266, 0.60028285, 0.9371224, 0.019607844)
 [node name="CloneHolder" type="Node" parent="." unique_id=1483765237]
 
 [node name="smoke" type="GPUParticles2D" parent="." unique_id=748279557]
+position = Vector2(-523, -469)
 scale = Vector2(4, 4)
 emitting = false
 amount = 20
