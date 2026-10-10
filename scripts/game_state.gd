@@ -17,7 +17,7 @@ var current_interval_index = 0
 var blinky := create_tween().set_loops().set_trans(Tween.TRANS_SINE)
 func _ready() -> void:
 	if get_tree().current_scene.name == "game":
-		game_floor.position.y = 1090 - get_taskbar_height() #idek why 1090, magic number i suppose :P
+		game_floor.position.y = get_viewport().get_visible_rect().size.y - get_taskbar_height()
 
 	blinky.tween_property(save_icon, "modulate:a", 0.6, 0.5)
 	blinky.tween_property(save_icon, "modulate:a", 1.0, 0.5)

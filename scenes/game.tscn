@@ -288,7 +288,10 @@ animations = [{
 size = Vector2(96, 96)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0tnpc"]
-size = Vector2(150, 108)
+size = Vector2(109, 108)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xy8r0"]
+size = Vector2(96, 3)
 
 [node name="game" type="Node2D" unique_id=2051751882]
 script = ExtResource("1_u5sy4")
@@ -299,6 +302,7 @@ offset_right = 0.0
 
 [node name="boundaries" type="StaticBody2D" parent="." unique_id=499436626 groups=["walls"]]
 position = Vector2(960, 1015)
+collision_mask = 15
 
 [node name="floor" type="CollisionShape2D" parent="boundaries" unique_id=1878036520]
 shape = SubResource("WorldBoundaryShape2D_0tnpc")
@@ -317,8 +321,9 @@ shape = SubResource("WorldBoundaryShape2D_xy8r0")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1825865480]
 position = Vector2(741, 491)
-collision_layer = 3
-collision_mask = 3
+floor_stop_on_slope = false
+platform_on_leave = 2
+platform_floor_layers = 4294967041
 script = ExtResource("2_lbhrr")
 
 [node name="sprite" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=686256694]
@@ -341,8 +346,17 @@ color = Color(1, 0, 0, 0.44313726)
 [node name="drag" type="Area2D" parent="CharacterBody2D" unique_id=1444873570]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/drag" unique_id=1704866926]
-position = Vector2(21, 0)
+position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_0tnpc")
+
+[node name="rigidbodyDetetcor" type="Area2D" parent="CharacterBody2D" unique_id=1564129146]
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/rigidbodyDetetcor" unique_id=1800974652]
+position = Vector2(0, -50.5)
+shape = SubResource("RectangleShape2D_xy8r0")
 
 [connection signal="animation_changed" from="CharacterBody2D/sprite" to="CharacterBody2D" method="_on_sprite_animation_changed"]
 [connection signal="input_event" from="CharacterBody2D/drag" to="CharacterBody2D" method="_on_area_2d_input_event"]
+[connection signal="body_entered" from="CharacterBody2D/rigidbodyDetetcor" to="CharacterBody2D" method="_on_rigidbody_detetcor_body_entered"]
+[connection signal="body_exited" from="CharacterBody2D/rigidbodyDetetcor" to="CharacterBody2D" method="_on_rigidbody_detetcor_body_exited"]
